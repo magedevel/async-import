@@ -1,14 +1,26 @@
 <?php
-namespace Magento\Redis\Model;
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Magento\Framework\KeyValue;
 
-use Magento\Redis\Model\KeyValueStorage\Exception as KeyValueStorageException;
-
+/**
+ * Internal API to work with storage implementing key-value data access (e.g. Redis)
+ */
 interface KeyValueStorageInterface
 {
+    /**
+     * Get value by key, throw exception if does not exist.
+     *
+     * @param string $key
+     * @return string
+     * @throws KeyValueStorageException
+     */
     public function get(string $key): string;
 
     /**
-     * Throw an exception if the record exists.
+     * Add a new item to the storage, throw an exception if the record exists.
      *
      * @param string $key
      * @param string $value
@@ -18,7 +30,7 @@ interface KeyValueStorageInterface
     public function add(string $key, string $value): self;
 
     /**
-     * Throw an exception if key does not exist.
+     * Update existing item, throw an exception if does not exist.
      *
      * @param string $key
      * @param string $value
@@ -28,7 +40,7 @@ interface KeyValueStorageInterface
     public function update(string $key, string $value): self;
 
     /**
-     * Throw an exception if key does not exist.
+     * Remove existing item, throw an exception if does not exist.
      *
      * @param string $key
      * @return $this
@@ -44,9 +56,8 @@ interface KeyValueStorageInterface
      */
     public function getByTags(array $tags): array;
 
-
     /**
-     * Must add all or none.
+     * Add tags to an item. If not all tags were added - throw an exception.
      *
      * @param string $key
      * @param string[] $tags
